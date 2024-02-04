@@ -1,1 +1,23 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.chat-area {
+    -fx-background-color:  #2f3136; /* Discord dark theme background color */
+    -fx-control-inner-background:  #2f3136;
+    -fx-text-fill: #ffffff;
+    
+}
+.message-text {
+    -fx-text-fill: #ffffff; /* White text color */
+    
+}
+.message {
+    -fx-background-color: #7289da; /* Discord accent color */
+    -fx-border-radius: 5; /* Rounded corners */
+    -fx-padding: 5;
+}
+.input-area {
+    -fx-background-color: #2f3136; /* Discord dark theme background color for input area */
+}
+.send-button {
+    -fx-background-color: #7289da; /* Discord accent color */
+    -fx-text-fill: #ffffff; /* White text color */
+}

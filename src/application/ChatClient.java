@@ -2,6 +2,8 @@ package application;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -24,27 +26,44 @@ public class ChatClient extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        chatArea = new TextArea();
-        messageInput = new TextField();
-        Button sendButton = new Button("Send");
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Parent root = loader.load();
 
-        sendButton.setOnAction(e -> sendMessage());
+            // Access the controller
+            ChatClientController controller = loader.getController();
 
-        VBox root = new VBox(chatArea, messageInput, sendButton);
-        Scene scene = new Scene(root, 400, 300);
+            // Set the stage
+            Scene scene = new Scene(root, 600, 400);
+            primaryStage.setTitle("Chat App");
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-        primaryStage.setTitle("Chat App");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            // Initialize the components after the FXML file has been loaded
+            initializeComponents(primaryStage, controller);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeComponents(Stage primaryStage, ChatClientController controller) {
+        // Pass the necessary elements or data to the controller if needed
+        controller.setStage(primaryStage);
+        controller.setChatClient(this);
+
+        // Initialize the messageInput field from the controller
+        messageInput = controller.getMessageInput();
 
         // Prompt the user for a username
-        setUsername();
+        setUsername(controller);
 
         // Connect to the server
         connectToServer();
     }
 
-    private void setUsername() {
+    private void setUsername(ChatClientController controller) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Username Input");
         dialog.setHeaderText("Please enter your username:");
@@ -53,10 +72,16 @@ public class ChatClient extends Application {
         // Traditional way to get the response value.
         username = dialog.showAndWait().orElse("Unknown");
 
-        // Display a custom message in the chat area
-        chatArea.appendText("Welcome, " + username + "! You are now logged in.\n");
-    }
+        // Access the chatArea from the controller
+        chatArea = controller.getChatArea();
 
+        // Display a custom message in the chat area
+        if (chatArea != null) {
+            chatArea.appendText("Welcome, " + username + "! You are now logged in.\n");
+        } else {
+            System.err.println("Error: chatArea is null.");
+        }
+    }
     private void connectToServer() {
         try {
             Socket socket = new Socket("localhost", 12345);
@@ -88,7 +113,7 @@ public class ChatClient extends Application {
         }
     }
 
-    private void sendMessage() {
+    public void sendMessage() {
         try {
             String message = messageInput.getText();
             String formattedMessage = username + ": " + message;

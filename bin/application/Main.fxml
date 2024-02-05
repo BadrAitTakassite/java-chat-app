@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-text-fill: white;" styleClass="chat-area" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChatClientController">
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextField />
-            <Button mnemonicParsing="false" text="SUBMIIIIIIT" textFill="#dc1818" />
-         </children>
-      </HBox>
-   </bottom>
+    <center>
+        <TextArea fx:id="chatArea" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-text-fill: white;" styleClass="chat-area" stylesheets="@application.css" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Lucida Console" size="14.0" />
+         </font></TextArea>
+    </center>
+
+    <bottom>
+        <HBox prefHeight="64.0" prefWidth="600.0" style="-fx-background-color: #242323;" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="messageInput" prefHeight="26.0" prefWidth="534.0" styleClass="input-area" stylesheets="@application.css">
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin></TextField>
+                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="66.0" styleClass="send-button" stylesheets="@application.css" text="Send-&gt;" textFill="#dc1818">
+               <font>
+                  <Font name="Lucida Console" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin></Button>
+            </children>
+        </HBox>
+    </bottom>
 </BorderPane>
